@@ -3,6 +3,8 @@ function createTable()
 {
 echo enter the name of table 
 read tableName
+ mkdir $databaseName
+
 echo enter the number of fields 
 read num
 typeset -i arr[$num]
@@ -16,7 +18,7 @@ read field
   read datatype 
   if [ $datatype == "string"  ] || [ $datatype == "int"  ]  || [ $datatype == "date"   ] || [ $datatype == "char" ] || [ $datatype == "CHAR"   ] || [ $datatype == "DATE"   ] || [ $datatype == "STRING"  ] || [ $datatype == "INT"  ]
   then
-   echo $datatype $field >> $tableName
+   echo $datatype $field >> $databaseName/$tableName
    else
    echo Inavalide datatype please enter again
    read $datatype
@@ -25,6 +27,7 @@ read field
    
 
 done
+
 }
 createTable
 echo enter the field that you want to be PK
@@ -34,8 +37,8 @@ echo enter the field that you want to be PK
      prim='PK'
      newField="${field} ${prim}"
 echo "${newField}"
-sed -i "s/$field/$newField/g" $tableName
+sed -i "s/$field/$newField/g" $databaseName/$tableName
    
    fi
 echo ==============================
-awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' $tableName
+awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' $databaseName/$tableName
