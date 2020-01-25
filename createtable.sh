@@ -1,4 +1,14 @@
 #!/usr/bin/bash
+function dtype()
+{
+    echo enter the datatype 
+  read datatype 
+  if [ $datatype == "string"  ] || [ $datatype == "int"  ]  || [ $datatype == "date"   ] || [ $datatype == "char" ] || [ $datatype == "CHAR"   ] || [ $datatype == "DATE"   ] || [ $datatype == "STRING"  ] || [ $datatype == "INT"  ]
+  then
+   echo $datatype $field >> $databaseName/$tableName
+   fi
+
+}
 function createTable()
 {
 echo enter the name of table 
@@ -25,8 +35,8 @@ read field
   then
    echo $datatype $field >> $databaseName/$tableName
    else
-   echo Inavalide datatype please enter again
-   read $datatype
+   echo Inavalide datatype please again
+   dtype
    fi
   
    
