@@ -33,7 +33,7 @@ if [ -d $databaseName ]
 then
    echo "DB Already Exists"    
 else
-  #mkdir $databaseName
+   export $databaseName
   source createtable.sh 
  
   choose
