@@ -7,19 +7,19 @@ do
 case $REPLY in 
 
 1)
-source  ~/Desktop/bashProject/createtable.sh 
+source createtable.sh 
 break ;;
 2)
-source  ~/Desktop/bashProject/deletetable.sh
+source  deletetable.sh
 break;;
 3)
-source  ~/Desktop/bashProject/modifytable.sh
+source  modifytable.sh
 break;;
 4)
-source  ~/Desktop/bashProject/inserttable.sh
+source  inserttable.sh
 break;;
 5)
-source  ~/Desktop/bashProject/listdata.sh
+source  listdata.sh
 break;;
   
 esac
@@ -33,7 +33,8 @@ if [ -d $databaseName ]
 then
    echo "DB Already Exists"    
 else
-  mkdir ~/Desktop/bashProject/$databaseName
+  mkdir $databaseName
+  export $databaseName
   choose
 
 
