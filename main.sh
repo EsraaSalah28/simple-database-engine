@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-select choice in "Create DB"  " Delete DB"  " List DBs"
+select choice in "Create DB"  " Delete DB"  " List DBs" " Exit"
 do
 
 case $REPLY in 
@@ -14,6 +14,9 @@ source  deletedb.sh
 break ;;
 3)
 source  listdata.sh
+break;;
+4)
+  exit
 break;;
 
   

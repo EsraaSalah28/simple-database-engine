@@ -13,7 +13,7 @@ function createTable()
 {
 echo enter the name of table 
 read tableName
- mkdir $databaseName
+ mkdir DBs/$databaseName
 
 echo enter the number of fields 
 read num
@@ -33,7 +33,7 @@ read field
   read datatype 
   if [ $datatype == "string"  ] || [ $datatype == "int"  ]  || [ $datatype == "date"   ] || [ $datatype == "char" ] || [ $datatype == "CHAR"   ] || [ $datatype == "DATE"   ] || [ $datatype == "STRING"  ] || [ $datatype == "INT"  ]
   then
-   echo $datatype $field >> $databaseName/$tableName
+   echo $datatype $field >> DBs/$databaseName/$tableName
    else
    echo Inavalide datatype please again
    dtype
@@ -49,7 +49,7 @@ function primaryKey()
 {
 prim='PK'
      newField="${field} ${prim}"
-sed -i "s/$field/$newField/g" $databaseName/$tableName
+sed -i "s/$field/$newField/g" Dbs/$databaseName/$tableName
 
 }
 createTable
@@ -68,5 +68,5 @@ echo this fiels doesnot exist please write it again
    
    fi
 echo ==============================
-awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' $databaseName/$tableName
+awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' DBs/$databaseName/$tableName
 printf "\n"

@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 function choose()
 {
-    select choice in "Create Table" " Delete Table" " Modify Table" " Insert Data" " List Tables" "Delete Record"
+    select choice in "Create Table" " Delete Table" " Modify Table" " Insert Data" " List Tables" "Delete Record" "Back to Main"
 do
 
 case $REPLY in 
@@ -21,6 +21,13 @@ break;;
 5)
 source  listdata.sh
 break;;
+6)
+  sorce deleterecord.sh
+  break;;
+7)
+  source main.sh
+break;;
+
   
 esac
 done
