@@ -87,7 +87,7 @@ fi
 if [ -d "databases/$databaseName" ]; then
   createTable "$databaseName"
 else
-  echo "Database does not exists -> exitting"
+  echo "$databaseName does not exist!"
   exit
 fi
 #============================================================
