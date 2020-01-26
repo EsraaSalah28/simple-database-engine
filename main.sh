@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 function showMainMenuSelections() {
-  select choice in "Create database" "Delete database" "Show databases" "Edit database" "Exit"; do
+  select choice in "Create database" "Delete database" "Show databases" "Edit database" "Show tables" "Exit"; do
 
     case $REPLY in
     1)
@@ -21,6 +21,10 @@ function showMainMenuSelections() {
       break
       ;;
     5)
+      source listtables.sh
+      break
+      ;;
+    6)
       exit
       ;;
     esac

@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 function showEditDatabaseSelections() {
-  select choice in "Create table" "Delete table" "Modify table" "List tables" "Insert record" "Delete record" "Update record" "Main" "Exit"; do
+  select choice in "Create table" "Delete table" "Modify table" "Show tables" "Insert record" "Delete record" "Update record" "Main" "Exit"; do
     case $REPLY in
 
     1)
