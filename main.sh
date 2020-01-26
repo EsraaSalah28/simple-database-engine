@@ -1,25 +1,31 @@
 #!/usr/bin/bash
 
-select choice in "Create DB"  " Delete DB"  " List DBs" " Exit"
-do
+function showMainMenuSelections() {
+  select choice in "Create database" "Delete database" "Show databases" "Edit database" "Exit"; do
 
-case $REPLY in 
-1) 
-source  creatdb.sh 
-break
-;;
+    case $REPLY in
+    1)
+      source creatdb.sh
+      break
+      ;;
+    2)
+      source deletedb.sh
+      break
+      ;;
+    3)
+      source listdatabases.sh
+      break
+      ;;
+    4)
+      source editdatabase.sh
+      break
+      ;;
+    5)
+      exit
+      ;;
+    esac
 
-2)
-source  deletedb.sh 
-break ;;
-3)
-source  listdata.sh
-break;;
-4)
-  exit
-break;;
+  done
+}
 
-  
-esac
-done
-            
+showMainMenuSelections

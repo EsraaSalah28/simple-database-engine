@@ -1,72 +1,98 @@
 #!/usr/bin/bash
-function dtype()
-{
-    echo enter the datatype 
-  read datatype 
-  if [ $datatype == "string"  ] || [ $datatype == "int"  ]  || [ $datatype == "date"   ] || [ $datatype == "char" ] || [ $datatype == "CHAR"   ] || [ $datatype == "DATE"   ] || [ $datatype == "STRING"  ] || [ $datatype == "INT"  ]
-  then
-   echo $datatype $field >> $databaseName/$tableName
-   fi
 
+#============================================================
+function dtype() {
+  echo "Enter the datatype: "
+  read datatype
+
+  if [ "$datatype" == "string" ] || [ "$datatype" == "int" ] || [ "$datatype" == "date" ] || [ "$datatype" == "char" ] || [ "$datatype" == "CHAR" ] || [ "$datatype" == "DATE" ] || [ "$datatype" == "STRING" ] || [ "$datatype" == "INT" ]; then
+    #    echo "$datatype" $field >>$databaseName/$tableName
+    return
+  else
+    echo "Invalid datatype!"
+    dtype
+    return
+  fi
 }
-function createTable()
-{
-echo enter the name of table 
-read tableName
- mkdir DBs/$databaseName
+#============================================================
 
-echo enter the number of fields 
-read num
-re='^[0-9]'
-if ! [[ $num =~ $re ]] ; then
-   echo "error: Not a number enter a number"
-   read num 
-fi
-typeset -i arr[$num]
+function createTable() {
+  databaseName=$1
 
-for ((i=1;i<=num;i++))
-do
-echo enter your $i field
-read field
- arr[i]=$field 
-  echo enter the datatype 
-  read datatype 
-  if [ $datatype == "string"  ] || [ $datatype == "int"  ]  || [ $datatype == "date"   ] || [ $datatype == "char" ] || [ $datatype == "CHAR"   ] || [ $datatype == "DATE"   ] || [ $datatype == "STRING"  ] || [ $datatype == "INT"  ]
-  then
-   echo $datatype $field >> DBs/$databaseName/$tableName
-   else
-   echo Inavalide datatype please again
-   dtype
-   fi
-  
-   
+  echo "Enter the name of table: "
+  read tableName
 
-done
+  if [ -f "databases/$databaseName/$tableName" ]; then
+    echo "Table with name $tableName already exits!"
+    createTable "$databaseName"
+    return
+  fi
 
+  echo "Enter the number of fields: "
+  read num
 
-}
-function primaryKey()
-{
-prim='PK'
-     newField="${field} ${prim}"
-sed -i "s/$field/$newField/g" Dbs/$databaseName/$tableName
+  re='^[0-9]'
+  if ! [[ $num =~ $re ]]; then
+    echo "Error: Not a number enter a number"
+    createTable "$databaseName"
+    return
+  fi
 
-}
-createTable
-echo enter the field that you want to be PK
-   read pk
-  if [ $pk == $field  ] 
-   then
-   primaryKey
-#      prim='PK'
-#      newField="${field} ${prim}"
-# sed -i "s/$field/$newField/g" $databaseName/$tableName
-else
-echo this fiels doesnot exist please write it again 
-  read pk 
+  allfields=()
+
+  for ((i = 1; i <= num; i++)); do
+    echo "Enter your $i field: "
+    read field
+
+    allfields+=("$field")
+
+    dtype
+    echo "$datatype $field" >>"databases/$databaseName/$tableName"
+
+  done
+
   primaryKey
-   
-   fi
-echo ==============================
-awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' DBs/$databaseName/$tableName
+}
+#============================================================
+
+function primaryKey() {
+  echo "Enter the field that you want to be PK: "
+  read pk
+
+  for t in "${allfields[@]}"; do
+    echo "t: $t"
+    echo "pk: $pk"
+    if [ "$t" = "$pk" ]; then
+      newField="$pk PK"
+      sed -i "s/$pk/$newField/g" "databases/$databaseName/$tableName"
+      break
+    else
+      echo "$pk is not a field in the table!"
+      primaryKey
+      return
+    fi
+  done
+}
+
+#============================================================
+#Start
+
+databaseName=$1
+if [ -z "$databaseName" ]; then
+  echo "Enter database name: "
+  read databaseName
+fi
+
+#============================================================
+if [ -d "databases/$databaseName" ]; then
+  createTable "$databaseName"
+else
+  echo "Database does not exists -> exitting"
+  exit
+fi
+#============================================================
+
+echo "=================================="
+
+awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' "databases/$databaseName/$tableName"
 printf "\n"
