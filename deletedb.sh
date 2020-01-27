@@ -17,7 +17,7 @@ echo  There is no such a database rewrite it again
 fi
 done
 }
-cd DBs/
+cd databases/
 
 echo Enter the name of DB you want to delete
 read deletedDb
