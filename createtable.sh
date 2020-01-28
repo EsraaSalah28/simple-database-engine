@@ -39,6 +39,7 @@ function createTable() {
   fi
 
   allfields=()
+  tableStrcuture=""
 
   for ((i = 1; i <= num; i++)); do
     echo "Enter your $i field: "
@@ -47,9 +48,20 @@ function createTable() {
     allfields+=("$field")
 
     dtype
-    echo "$datatype $field" >>"databases/$databaseName/$tableName"
+
+    echo "$i $num"
+
+    if [ "$i" != "$num" ]; then
+      tableStrcuture+="$datatype $field:"
+    else
+      tableStrcuture+="$datatype $field"
+    fi
+
+    echo "$tableStrcuture"
 
   done
+
+  echo "$tableStrcuture" >>"databases/$databaseName/$tableName"
 
   primaryKey
 }
@@ -74,14 +86,21 @@ function primaryKey() {
   done
 }
 
+function checkDatabaseName() {
+  if [ -z "$databaseName" ]; then
+    echo "Enter database name: "
+    read databaseName
+    checkDatabaseName
+    return
+  fi
+}
+
 #============================================================
 #Start
 
 databaseName=$1
-if [ -z "$databaseName" ]; then
-  echo "Enter database name: "
-  read databaseName
-fi
+
+checkDatabaseName
 
 #============================================================
 if [ -d "databases/$databaseName" ]; then

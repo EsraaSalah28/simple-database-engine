@@ -9,4 +9,4 @@ else
   mkdir -p "databases/${databaseName}"
 fi
 
-source main.sh
+source creattable.sh "${databaseName}"
