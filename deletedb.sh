@@ -14,6 +14,8 @@ function delete() {
     fi
   done
 }
+cd databases/
+
 echo Enter the name of DB you want to delete
 read deletedDb
 if [ -d $deletedDb ]; then
