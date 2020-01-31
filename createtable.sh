@@ -53,7 +53,7 @@ function createTable() {
   primaryKey
 
   for ((i = 0; i < ${#allfieldsAndDataTypes[@]}; i++)); do
-    if ! [[ "$i" == $(("${#allfieldsAndDataTypes[@]}" - 1)) ]]; then
+    if ! [[ "$i" == $((${#allfieldsAndDataTypes[@]} - 1)) ]]; then
       tableStrcuture+="${allfieldsAndDataTypes[i]}:"
     else
       tableStrcuture+="${allfieldsAndDataTypes[i]}"

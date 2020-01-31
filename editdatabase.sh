@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 function showEditDatabaseSelections() {
-  select choice in "Create table" "Delete table" "Modify table" "Show tables" "Insert record" "Delete record" "Update record" "Main" "Exit"; do
+  select choice in "Create table" "Delete table" "Update record" "List tables"  " Show Table" "Insert record" "Delete record"  "Main" "Exit"; do
     case $REPLY in
 
     1)
@@ -13,31 +13,34 @@ function showEditDatabaseSelections() {
       break
       ;;
     3)
-      source modifytable.sh "$1"
+      source updaterecord.sh "$1"
       break
       ;;
     4)
       source listtables.sh "$1"
       break
       ;;
-    5)
+
+     5)
+      source showtables.sh "$1"
+      break
+      ;;
+
+    6)
       source insertrecord.sh "$1"
       break
       ;;
-    6)
+    7)
       source deleterecord.sh "$1"
       break
       ;;
-    7)
-      source updaterecord.sh "$1"
-      break
-      ;;
+   
     8)
       source main.sh
       break
       ;;
 
-    9)
+    8)
       exit
       ;;
     esac
