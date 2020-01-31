@@ -5,8 +5,9 @@ read databaseName
 
 if [ -d "databases/$databaseName" ]; then
   echo "DB Already Exists"
+  exit
 else
   mkdir -p "databases/${databaseName}"
 fi
 
-source creattable.sh "${databaseName}"
+source createtable.sh "${databaseName}"

@@ -2,10 +2,10 @@
 
 #============================================================
 function dtype() {
-  echo "Enter the datatype: "
+  echo "Enter the datatype [ available types are (int) & (string) ]: "
   read datatype
 
-  if [ "$datatype" == "string" ] || [ "$datatype" == "int" ] || [ "$datatype" == "date" ] || [ "$datatype" == "char" ] || [ "$datatype" == "CHAR" ] || [ "$datatype" == "DATE" ] || [ "$datatype" == "STRING" ] || [ "$datatype" == "INT" ]; then
+  if [ "$datatype" == "string" ] || [ "$datatype" == "int" ] || [ "$datatype" == "STRING" ] || [ "$datatype" == "INT" ]; then
     #    echo "$datatype" $field >>$databaseName/$tableName
     return
   else
@@ -38,32 +38,31 @@ function createTable() {
     return
   fi
 
-  allfields=()
+  allfieldsAndDataTypes=()
   tableStrcuture=""
 
   for ((i = 1; i <= num; i++)); do
     echo "Enter your $i field: "
     read field
 
-    allfields+=("$field")
-
     dtype
 
-    echo "$i $num"
+    allfieldsAndDataTypes+=("$datatype $field")
+  done
 
-    if [ "$i" != "$num" ]; then
-      tableStrcuture+="$datatype $field:"
+  primaryKey
+
+  for ((i = 0; i < ${#allfieldsAndDataTypes[@]}; i++)); do
+    if ! [[ "$i" == $(("${#allfieldsAndDataTypes[@]}" - 1)) ]]; then
+      tableStrcuture+="${allfieldsAndDataTypes[i]}:"
     else
-      tableStrcuture+="$datatype $field"
+      tableStrcuture+="${allfieldsAndDataTypes[i]}"
+
     fi
-
-    echo "$tableStrcuture"
-
   done
 
   echo "$tableStrcuture" >>"databases/$databaseName/$tableName"
 
-  primaryKey
 }
 #============================================================
 
@@ -71,19 +70,20 @@ function primaryKey() {
   echo "Enter the field that you want to be PK: "
   read pk
 
-  for t in "${allfields[@]}"; do
-    echo "t: $t"
-    echo "pk: $pk"
-    if [ "$t" = "$pk" ]; then
-      newField="$pk PK"
-      sed -i "s/$pk/$newField/g" "databases/$databaseName/$tableName"
-      break
-    else
-      echo "$pk is not a field in the table!"
-      primaryKey
+  for ((i = 0; i < ${#allfieldsAndDataTypes[@]}; i++)); do
+    fieldName=$(echo "${allfieldsAndDataTypes[i]}" | awk '{print $2;}')
+    if [[ $fieldName == "$pk" ]]; then
+      allfieldsAndDataTypes[i]=$(
+        echo "${allfieldsAndDataTypes[i]}" | sed -e "s/${allfieldsAndDataTypes[i]}/${allfieldsAndDataTypes[i]} PK/g"
+      )
+      #      allfieldsAndDataTypes[i]=$(echo "${${allfieldsAndDataTypes[i]}//${allfieldsAndDataTypes[i]}/"${allfieldsAndDataTypes[i]} PK"}")
       return
     fi
   done
+
+  echo "$pk is not a field in the table!"
+  primaryKey
+  return
 }
 
 function checkDatabaseName() {
