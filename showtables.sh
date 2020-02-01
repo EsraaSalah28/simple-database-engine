@@ -19,15 +19,8 @@ function checkTableName() {
 }
 
 
-databaseName=$1   
-
+databaseName=$1
 checkDatabaseName
 checkTableName
 echo "Your Table"
 cat databases/$databaseName/$tableName
-echo "What is the value of its PK"
-read mPK
-echo "which filed you want to update"
-read updateField
-if [[ ]]
-
