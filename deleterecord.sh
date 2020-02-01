@@ -1,21 +1,15 @@
 #!/usr/bin/bash
 
-function checkDatabaseName() {
-  if [ -z "$databaseName" ]; then
-    echo "Enter database name: "
-    read databaseName
-    checkDatabaseName
+source commonfunctions.sh
+# ===========================================================================
+
+function readPkValue() {
+  echo "Enter PK field value: "
+  read fieldValue
+
+  if [ -z "$fieldValue" ]; then
+    readPkValue
     return
-  fi
-}
-
-function checkTableName() {
-  echo "Enter the name of table: "
-  read tableName
-
-  if test ! -f "databases/$databaseName/$tableName"; then
-    echo "$tableName does not exist!"
-    exit
   fi
 }
 
@@ -33,8 +27,7 @@ fi
 
 checkTableName #calling the check table function
 
-echo "PK field value: "
-read fieldValue
+readPkValue
 
 OIFS=$IFS # saving old $IFS in OIFS
 IFS=':'   # doing speration and save values in array
@@ -50,13 +43,13 @@ done
 
 # get number of record to be deleted
 lineNum=$(
-  awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":"; } { if(NR!=1 && $indexOfPKField==fieldValue){ print NR;} }' "databases/$databaseName/$tableName"
+  awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":"; } { if(FNR!=1 && $indexOfPKField==fieldValue){ print FNR;} }' "databases/$databaseName/$tableName"
 )
 
 # echo the record to be deleted
 echo "delete record: "
-awk -v n="$lineNum" 'NR==n {print $0}' "databases/$databaseName/$tableName"
+awk -v n="$lineNum" 'FNR==n {print $0}' "databases/$databaseName/$tableName"
 
 # do deletion
-awk -v n="$lineNum" 'NR==n {next} {print}' "databases/$databaseName/$tableName" >"databases/$databaseName/$tableName.tmp"
+awk -v n="$lineNum" 'FNR==n {next} {print}' "databases/$databaseName/$tableName" >"databases/$databaseName/$tableName.tmp"
 mv "databases/$databaseName/$tableName.tmp" "databases/$databaseName/$tableName"

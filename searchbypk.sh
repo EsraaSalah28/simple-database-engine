@@ -1,24 +1,6 @@
 #!/usr/bin/bash
 
-function checkDatabaseName() {
-  if [ -z "$databaseName" ]; then
-    echo "Enter database name: "
-    read databaseName
-    checkDatabaseName
-    return
-  fi
-}
-
-function checkTableName() {
-  echo "Enter the name of table: "
-  read tableName
-
-  if test ! -f "databases/$databaseName/$tableName"; then
-    echo "$tableName does not exist!"
-    exit
-  fi
-}
-
+source commonfunctions.sh
 # ===========================================================================
 
 databaseName=$1   #assign name of db from pararmters passed to sh file
@@ -48,4 +30,4 @@ for (( ; index < ${#array[@]}; ++index)); do
   fi
 done
 
-awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":"; } { found=0; if(NR!=1 && $indexOfPKField==fieldValue){ print $0; found=1; print found;} } END{ if(found==0){print found; print "NOT found!"} }' "databases/$databaseName/$tableName"
+awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":";} {if(FNR!=1 && $indexOfPKField==fieldValue){ print $0; found=1;}else{found=0;} } END{ printf "found: "; print found; if(found==0){printf "No record found for value: "; printf fieldValue} }' "databases/$databaseName/$tableName"

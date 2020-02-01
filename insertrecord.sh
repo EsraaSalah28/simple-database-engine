@@ -1,26 +1,8 @@
 #!/usr/bin/bash
 # shellcheck disable=SC2162
 
-function checkDatabaseName() {
-  if [ -z "$databaseName" ]; then
-    echo "Enter database name: "
-    read databaseName
-    checkDatabaseName
-    return
-  fi
-}
-
-function checkTableName() {
-  echo "Enter the name of table: "
-  read tableName
-
-  if test ! -f "databases/$databaseName/$tableName"; then
-    echo "$tableName does not exist!"
-    exit
-  fi
-}
-
-#============================================================
+source commonfunctions.sh
+# ===========================================================================
 
 function checkIfValueMatchesDataType() {
   local inputValue=$1
@@ -83,7 +65,7 @@ for (( ; index < ${#array[@]}; ++index)); do
   if [[ ${array[index]} == *"PK"* ]]; then
 
     # read all ids from table and save them in string using awk
-    ids=$(awk -v indexOfPKField="$((index + 1))" 'BEGIN{ FS=":"; } { if(NR!=1){ printf $indexOfPKField; printf ":"; } }' "databases/$databaseName/$tableName")
+    ids=$(awk -v indexOfPKField="$((index + 1))" 'BEGIN{ FS=":"; } { if(FNR!=1){ printf $indexOfPKField; printf ":"; } }' "databases/$databaseName/$tableName")
 
     #sperate the read string then loop on it
     OIFS=$IFS # saving old $IFS in OIFS

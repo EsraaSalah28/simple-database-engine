@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+source commonfunctions.sh
+
 #============================================================
 function dtype() {
   echo "Enter the datatype [ available types are (int) & (string) ]: "
@@ -88,15 +90,6 @@ function primaryKey() {
   echo "$pk is not a field in the table!"
   primaryKey
   return
-}
-
-function checkDatabaseName() {
-  if [ -z "$databaseName" ]; then
-    echo "Enter database name: "
-    read databaseName
-    checkDatabaseName
-    return
-  fi
 }
 
 #============================================================
