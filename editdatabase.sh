@@ -22,7 +22,7 @@ function showEditDatabaseSelections() {
       ;;
 
      5)
-      source showtables.sh "$1"
+      source showdata.sh "$1"
       break
       ;;
 
