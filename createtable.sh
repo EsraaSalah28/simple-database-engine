@@ -22,6 +22,11 @@ function createTable() {
   echo "Enter the name of table: "
   read tableName
 
+  if [ -z "$tableName" ]; then
+    createTable databaseName
+    return
+  fi
+
   if [ -f "databases/$databaseName/$tableName" ]; then
     echo "Table with name $tableName already exits!"
     createTable "$databaseName"
@@ -57,7 +62,6 @@ function createTable() {
       tableStrcuture+="${allfieldsAndDataTypes[i]}:"
     else
       tableStrcuture+="${allfieldsAndDataTypes[i]}"
-
     fi
   done
 
