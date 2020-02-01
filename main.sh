@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 function showMainMenuSelections() {
-  select choice in "Create database" "Delete database" "List databases" "Edit database" "List tables" "Show data" "Exit"; do
+  select choice in "Create database" "Delete database" "List databases" "Edit database" "List tables" "Show data" "Search by PK" "Exit"; do
 
     case $REPLY in
     1)
@@ -29,6 +29,10 @@ function showMainMenuSelections() {
       break
       ;;
     7)
+      source searchbypk.sh
+      break
+      ;;
+    8)
       exit
       ;;
     esac
