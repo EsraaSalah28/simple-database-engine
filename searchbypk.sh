@@ -30,4 +30,9 @@ for (( ; index < ${#array[@]}; ++index)); do
   fi
 done
 
-printTable ':' "$(sed -n 1p "databases/$databaseName/$tableName")\n$(awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":";} {if(FNR!=1 && $indexOfPKField==fieldValue){ print $0; found=1;}else{found=0;} } END{if(found==0){printf "No record found for value: "; printf fieldValue} }' "databases/$databaseName/$tableName")"
+awkOutput=$(awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":";} {if(FNR!=1 && $indexOfPKField==fieldValue){ print $0; found=1;}else{found=0;} } END{if(found==0){printf "No record found for value: "; printf fieldValue} }' "databases/$databaseName/$tableName")
+if [[ $awkOutput == *"No record found for value"* ]]; then
+  echo "$awkOutput"
+else
+  printTable ':' "$(sed -n 1p "databases/$databaseName/$tableName")\n$awkOutput"
+fi
