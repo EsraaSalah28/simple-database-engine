@@ -3,7 +3,8 @@
 if [ -d "databases" ]; then
   ls "databases"
 else
-  echo "No databases exists"
+  echo "No databases found!"
 fi
 
+printf "\n\n"
 source main.sh

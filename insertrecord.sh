@@ -100,3 +100,6 @@ done
 echo "$record" >>"databases/$databaseName/$tableName"
 echo "Inserted record:"
 echo "$record"
+
+printf "\n\n"
+source editdatabase.sh "$databaseName"

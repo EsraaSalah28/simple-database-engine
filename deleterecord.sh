@@ -53,3 +53,7 @@ awk -v n="$lineNum" 'FNR==n {print $0}' "databases/$databaseName/$tableName"
 # do deletion
 awk -v n="$lineNum" 'FNR==n {next} {print}' "databases/$databaseName/$tableName" >"databases/$databaseName/$tableName.tmp"
 mv "databases/$databaseName/$tableName.tmp" "databases/$databaseName/$tableName"
+
+
+printf "\n\n"
+source editdatabase.sh "$databaseName"

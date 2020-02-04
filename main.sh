@@ -33,6 +33,7 @@ function showMainMenuSelections() {
       break
       ;;
     8)
+      echo "Bye!"
       exit
       ;;
     esac

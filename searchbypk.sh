@@ -10,7 +10,7 @@ checkDatabaseName #calling the check db function
 # check if DB does not exists!
 if ! [[ -d "databases/$databaseName" ]]; then
   echo "$databaseName does not exist!"
-  exit
+  source main.sh
 fi
 
 checkTableName #calling the check table function
@@ -36,3 +36,5 @@ if [[ $awkOutput == *"No record found for value"* ]]; then
 else
   printTable ':' "$(sed -n 1p "databases/$databaseName/$tableName")\n$awkOutput"
 fi
+
+source main.sh

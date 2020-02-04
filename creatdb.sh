@@ -4,10 +4,12 @@ echo "Enter The Name of Database: "
 read databaseName
 
 if [ -d "databases/$databaseName" ]; then
-  echo "DB Already Exists"
-  exit
+  echo "database $databaseName Already Exists!"
+  source main.sh
 else
   mkdir -p "databases/${databaseName}"
+  echo "database $databaseName created successfully!"
 fi
 
-source createtable.sh "${databaseName}"
+printf "\n\n"
+source editdatabase.sh "$databaseName"

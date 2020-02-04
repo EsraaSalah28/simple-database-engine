@@ -1,23 +1,13 @@
 #!/usr/bin/bash
-function delete() {
-
-  while [ ! -d "databases/$deletedDb" ]; do
-    echo Enter the name of DB you want to delete
-    read deletedDb
-    if [ -d "$deletedDb" ]; then
-      rm -r "databases/$deletedDb"
-      break
-    else
-      echo "There is no such a database rewrite it again"
-    fi
-  done
-}
-
-echo "Enter the name of DB you want to delete"
+echo "Enter the name of Database you want to delete"
 read deletedDb
-if [ -d "$deletedDb" ]; then
+
+if [ -d "databases/$deletedDb" ]; then
   rm -r "databases/$deletedDb"
+  echo "$deletedDb deleted successfully!"
 else
-  echo "There is no such a database rewrite it again"
-  delete
+  echo "$deletedDb does not exists!"
 fi
+
+printf "\n\n"
+source main.sh

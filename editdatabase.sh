@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 function showEditDatabaseSelections() {
-  select choice in "Create table" "Delete table" "Update record" "List tables"  " Show Table" "Insert record" "Delete record"  "Main" "Exit"; do
+  select choice in "Create table" "Delete table" "Update record" "Insert record" "Delete record" "Main" "Exit"; do
     case $REPLY in
 
     1)
@@ -17,30 +17,19 @@ function showEditDatabaseSelections() {
       break
       ;;
     4)
-      source listtables.sh "$1"
-      break
-      ;;
-
-     5)
-      source showdata.sh "$1"
-      break
-      ;;
-
-    6)
       source insertrecord.sh "$1"
       break
       ;;
-    7)
+    5)
       source deleterecord.sh "$1"
       break
       ;;
-   
-    8)
+    6)
       source main.sh
       break
       ;;
 
-    8)
+    7)
       exit
       ;;
     esac
@@ -57,6 +46,7 @@ fi
 if [ -d "databases/$databaseName" ]; then
   showEditDatabaseSelections "$databaseName"
 else
-  echo "Database $databaseName does not exists -> exitting"
-  exit
+  echo "Database $databaseName does not exists!"
+  printf "\n\n"
+  source main.sh
 fi

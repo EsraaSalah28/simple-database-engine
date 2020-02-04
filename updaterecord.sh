@@ -142,3 +142,5 @@ mv "databases/$databaseName/$tableName.tmp" "databases/$databaseName/$tableName"
 # display updated data to user
 echo "Updated record:"
 printTable ':' "$(sed -n 1p "databases/$databaseName/$tableName")\n$newRecord"
+
+

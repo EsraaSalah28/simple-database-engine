@@ -1,27 +1,26 @@
 #!/usr/bin/bash
-function deleteTable() {
-  echo "Enter the name of database: "
-  read databaseName
 
-  if [ -d "databases/$databaseName" ]; then
-    echo "Enter the name of table: "
-    read tableName
+source commonfunctions.sh
+# ===========================================================================
 
-    if [ -f "databases/$databaseName/$tableName" ]; then
-      rm -rf "databases/$databaseName/$tableName"
-      echo "table $tableName deleted successfully"
-      return
-    else
-      echo "table $tableName does not exists in database $databaseName"
-      deleteTable
-      return
-    fi
+databaseName=$1   #assign name of db from pararmters passed to sh file
 
+checkDatabaseName #calling the check db function
+
+if [ -d "databases/$databaseName" ]; then
+  echo "Enter the name of table: "
+  read tableName
+
+  if [ -f "databases/$databaseName/$tableName" ]; then
+    rm -rf "databases/$databaseName/$tableName"
+    echo "table $tableName deleted successfully"
   else
-    echo "$databaseName does not exist!"
-    deleteTable
-    return
+    echo "table $tableName does not exists in database $databaseName"
   fi
-}
 
-deleteTable
+else
+  echo "$databaseName does not exist!"
+fi
+
+printf "\n\n"
+source editdatabase.sh "$databaseName"

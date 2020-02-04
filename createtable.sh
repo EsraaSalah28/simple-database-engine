@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 source commonfunctions.sh
-
 #============================================================
+
 function dtype() {
   echo "Enter the datatype [ available types are (int) & (string) ]: "
   read datatype
@@ -25,13 +25,15 @@ function createTable() {
   read tableName
 
   if [ -z "$tableName" ]; then
+    printf "Error: Table name can't be empty!\n"
     createTable databaseName
     return
   fi
 
   if [ -f "databases/$databaseName/$tableName" ]; then
     echo "Table with name $tableName already exits!"
-    createTable "$databaseName"
+    printf "\n\n"
+    source editdatabase.sh "$databaseName"
     return
   fi
 
@@ -40,7 +42,7 @@ function createTable() {
 
   re='^[0-9]'
   if ! [[ $num =~ $re ]]; then
-    echo "Error: Not a number enter a number"
+    echo "Error: Not a number, enter a number"
     createTable "$databaseName"
     return
   fi
@@ -68,7 +70,9 @@ function createTable() {
   done
 
   echo "$tableStrcuture" >>"databases/$databaseName/$tableName"
-
+  echo "=================================="
+  printf "Created table:\n"
+  printTable ':' "$(sed -n 1p "databases/$databaseName/$tableName")"
 }
 #============================================================
 
@@ -108,7 +112,5 @@ else
 fi
 #============================================================
 
-echo "=================================="
-
-awk 'BEGIN{FS="\t"; ORS="\t"} {print $1,$2}' "databases/$databaseName/$tableName"
-printf "\n"
+printf "\n\n"
+source editdatabase.sh "$databaseName"
