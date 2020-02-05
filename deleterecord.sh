@@ -41,19 +41,25 @@ for (( ; index < ${#array[@]}; ++index)); do
   fi
 done
 
-# get number of record to be deleted
-lineNum=$(
-  awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":"; } { if(FNR!=1 && $indexOfPKField==fieldValue){ print FNR;} }' "databases/$databaseName/$tableName"
-)
+awkOutput=$(awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":";} {if(FNR!=1 && $indexOfPKField==fieldValue){ print $0; found=1;}else{found=0;} } END{if(found==0){printf "No record found for value: "; printf fieldValue} }' "databases/$databaseName/$tableName")
+if [[ $awkOutput == *"No record found for value"* ]]; then
+  echo "$awkOutput"
+else
 
-# echo the record to be deleted
-echo "delete record: "
-awk -v n="$lineNum" 'FNR==n {print $0}' "databases/$databaseName/$tableName"
+  # get number of record to be deleted
+  lineNum=$(
+    awk -v fieldValue="$fieldValue" -v indexOfPKField="$indexOfPKField" 'BEGIN{ FS=":"; } { if(FNR!=1 && $indexOfPKField==fieldValue){ print FNR;} }' "databases/$databaseName/$tableName"
+  )
 
-# do deletion
-awk -v n="$lineNum" 'FNR==n {next} {print}' "databases/$databaseName/$tableName" >"databases/$databaseName/$tableName.tmp"
-mv "databases/$databaseName/$tableName.tmp" "databases/$databaseName/$tableName"
+  # echo the record to be deleted
+  echo "deleted record: "
+  printTable ':' "$(awk -v n="$lineNum" 'FNR==n {print $0}' "databases/$databaseName/$tableName")"
 
+  # do deletion
+  awk -v n="$lineNum" 'FNR==n {next} {print}' "databases/$databaseName/$tableName" >"databases/$databaseName/$tableName.tmp"
+  mv "databases/$databaseName/$tableName.tmp" "databases/$databaseName/$tableName"
+
+fi
 
 printf "\n\n"
 source editdatabase.sh "$databaseName"

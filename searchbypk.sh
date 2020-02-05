@@ -37,4 +37,5 @@ else
   printTable ':' "$(sed -n 1p "databases/$databaseName/$tableName")\n$awkOutput"
 fi
 
+printf "\n\n"
 source main.sh
