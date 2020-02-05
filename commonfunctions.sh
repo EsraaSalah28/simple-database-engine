@@ -100,7 +100,8 @@ function checkTableName() {
 
   if test ! -f "databases/$databaseName/$tableName"; then
     echo "$tableName does not exist!"
-    exit
+    printf "\n\n"
+    source main.sh
   fi
 }
 
