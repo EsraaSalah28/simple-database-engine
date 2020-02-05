@@ -12,7 +12,7 @@ Clone the repo then run the following commands:
 > ./main.sh         # execute it
 ```
 ## Preview:
-[![preview]()]
+[![preview](https://github.com/EsraaSalah28/simple-database-engine/blob/master/bash.png)]
 
 ## Supported operations:
 ```
