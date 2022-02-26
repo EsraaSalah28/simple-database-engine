@@ -22,7 +22,7 @@ pipeline {
             echo 'Cleaning up workspace'
         }
     success {
-    echo "${env.JOB_NAME} Successful build"
+    eho "${env.JOB_NAME} Successful build"
             }
     
       failure{
