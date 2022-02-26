@@ -9,7 +9,7 @@ pipeline {
                 DEBUG_FLAGS = '-g'
             }
             steps {
-                echo 'hiii ${CC} , ${DEBUG_FLAGS}'
+                echo 'hiii ${env.CC} , ${env.DEBUG_FLAGS}'
             }
         }
     }
