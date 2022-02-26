@@ -25,4 +25,7 @@ pipeline {
     echo "${env.JOB_NAME} Successful build"
             }
     }
+    failure{
+        echo "${env.JOB_NAME} Failed build"
+    
 }
