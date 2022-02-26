@@ -27,5 +27,6 @@ pipeline {
     }
     failure{
         echo "${env.JOB_NAME} Failed build"
+    }
     
 }
