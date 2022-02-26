@@ -1,33 +1,25 @@
 pipeline {
-    agent any
+    agent any 
     stages {
-        stage('Build') {
+        stage('Build') { 
             steps {
                 echo 'Building the App ..'
             }
         }
-        stage('Test') {
+        stage('Test') { 
             steps {
-                echo 'Testing the App ..'
+              echo 'Testing the App ..'
             }
         }
-        stage('Deploy') {
+        stage('Deploy') { 
+            when {
+              expression {
+                BRANCH_NAME=='master'
+              }
+            }
             steps {
-                echo 'Deploying the App ..'
+               echo 'Deploying the App ..'
             }
         }
     }
-    post {
-        always {
-            echo 'Cleaning up workspace'
-        }
-    success {
-    eho "${env.JOB_NAME} Successful build"
-            }
-    
-      failure{
-        echo "${env.JOB_NAME} Failed build"
-    }
-    }
-  
 }
