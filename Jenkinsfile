@@ -21,9 +21,7 @@ pipeline {
         always {
             echo 'Cleaning up workspace'
         }
-        success {
-            slackSend (color: 'GREEN', message: \
-            "${env.JOB_NAME} Successful build")
-        }
+    success {
+    echo "${env.JOB_NAME} Successful build"
+            }
     }
-}
