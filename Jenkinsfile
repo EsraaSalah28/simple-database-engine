@@ -1,25 +1,30 @@
 pipeline {
-    agent any 
-    stages {
-        stage('Build') { 
-            steps {
-                echo 'Building the App ..'
-            }
-        }
-        stage('Test') { 
-            steps {
-              echo 'Testing the App ..'
-            }
-        }
-        stage('Deploy') { 
-            when {
-              expression {
-                BRANCH_NAME=='myy'
-              }
-            }
-            steps {
-               echo 'Deploying the App ..'
-            }
-        }
+    agent any
+    parameters {
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+        booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
-}
+    stages {
+        stage("build") {
+            steps {
+                echo 'building the application...'
+            }
+        }
+        stage("test") {
+            when {
+                expression {
+                    params.executeTests
+                }
+            }
+            steps {
+                echo 'testing the application...'
+            }
+        }
+        stage("deploy") {
+            steps {
+                echo 'deplying the application...'
+                echo "deploying version ${env.VERSION}"
+            }
+        }
+    } 
+}  
