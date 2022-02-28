@@ -23,6 +23,7 @@ pipeline {
         stage("deploy") {
             steps {
                 echo 'deplying the application...'
+                 echo "deploying version ${env.VERSION}"
             }
         }
     }
